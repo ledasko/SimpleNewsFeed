@@ -1,0 +1,40 @@
+﻿@model IEnumerable<nmibp2lab.Models.Post>
+
+<div>
+    @foreach (var item in Model)
+    {
+        using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+        <div class="row">
+            <div class="col-md-1"></div>
+            @Html.Hidden("Id", item.Id)
+            <div class="col-md-6">
+                    <p><h2>@Html.DisplayFor(modelItem => item.title)</h2></p>
+                    <p>@Html.DisplayFor(modelItem => item.text)</p>
+                    <p><b>Post author:</b> @Html.DisplayFor(modelItem => item.author)</p>
+                    <ul>
+                    @foreach (var comment in item.comments)
+                    {
+                        <li>@comment</li>
+                    }               
+                    </ul>
+                @Html.TextBox("comment", "")
+                <input class="btn btn-default" type="submit" value="Post comment" />
+            </div>
+
+            <div class="col-md-4">
+                @if (item.image != null)
+                {
+                    string imgstring = Convert.ToBase64String(item.image);
+                    var imgsrc = string.Format("data:image/gif;base64,{0}", imgstring);
+                    <img src="@imgsrc" class="img-responsive" style="max-height:300px; max-width:300px; margin-top:5%; margin-left:5%"/>
+                }
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        }
+
+
+    }
+</div>
